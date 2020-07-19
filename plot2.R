@@ -1,5 +1,7 @@
 library(tidyr)
 
+Sys.getlocale("LC_TIME")
+
 #Download data and put in dataframe 
 Dataset <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", destfile = "HPC.zip")
 unzip(zipfile = "./HPC.zip", exdir = ".")
@@ -11,19 +13,26 @@ HPC <- read.table("household_power_consumption.txt", skip = 1, sep = ";")
 names(HPC)<- c("Date", "Time", "Global_active_power", "Global_reactive_power", 
                "Voltage", "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3")
 
-#subset data between 2007-02-01 and 2007-02-02
+#Make Date a Date
 HPC$Date <- as.Date(HPC$Date, format = "%d/%m/%Y")
+
+#subset data between 2007-02-01 and 2007-02-02
 HPC1 <- subset(HPC, HPC$Date == "2007/2/1" | HPC$Date == "2007/2/2")
+
+#Combine Date and Time
+DateTime <- paste(HPC1$Date, HPC1$Time)
+DateTime <- strptime(DateTime, format = "%Y-%m-%d %H:%M:%S")
+HPC1$DateTime <- DateTime
 
 #plot1 is a histogram, frequency of Global_active_power. 
 #Change class Global_active_power to character to categorize
-hist(as.numeric(as.character(HPC1$Global_active_power)), col = "red", main = "Global Active Power", 
-     xlab = "Global Active Power(kilowatts)")
+plot(HPC1$DateTime, as.numeric(as.character(HPC1$Global_active_power)), type = "l", 
+     xlab = "", ylab = "Global Active Power(kilowatts)")
 
 #save plot1 as png
-png("plot1.png", width = 480, height = 480)
+png("plot2.png", width = 480, height = 480)
 
-hist(as.numeric(as.character(HPC1$Global_active_power)), col = "red", main = "Global Active Power", 
-     xlab = "Global Active Power(kilowatts)")
+plot(HPC1$DateTime, as.numeric(as.character(HPC1$Global_active_power)), type = "l", 
+     xlab = "", ylab = "Global Active Power(kilowatts)")
 
 dev.off()
