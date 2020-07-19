@@ -1,5 +1,7 @@
 library(tidyr)
 
+Sys.setlocale("LC_ALL", "English")
+
 #Download data and put in dataframe 
 Dataset <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", destfile = "HPC.zip")
 unzip(zipfile = "./HPC.zip", exdir = ".")
@@ -15,14 +17,11 @@ names(HPC)<- c("Date", "Time", "Global_active_power", "Global_reactive_power",
 HPC$Date <- as.Date(HPC$Date, format = "%d/%m/%Y")
 HPC1 <- subset(HPC, HPC$Date == "2007/2/1" | HPC$Date == "2007/2/2")
 
-#plot1 is a histogram, frequency of Global_active_power. 
-#Change class Global_active_power to character to categorize
-hist(as.numeric(as.character(HPC1$Global_active_power)), col = "red", main = "Global Active Power", 
-     xlab = "Global Active Power(kilowatts)")
-
 #save plot1 as png
 png("plot1.png", width = 480, height = 480)
 
+#plot1 is a histogram, frequency of Global_active_power. 
+#Change class Global_active_power to character to categorize
 hist(as.numeric(as.character(HPC1$Global_active_power)), col = "red", main = "Global Active Power", 
      xlab = "Global Active Power(kilowatts)")
 

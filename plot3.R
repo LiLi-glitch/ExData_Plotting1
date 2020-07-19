@@ -1,6 +1,6 @@
 library(tidyr)
 
-Sys.getlocale("LC_TIME")
+Sys.setlocale("LC_ALL", "English")
 
 #Download data and put in dataframe 
 Dataset <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", destfile = "HPC.zip")
@@ -23,17 +23,6 @@ HPC1 <- subset(HPC, HPC$Date == "2007/2/1" | HPC$Date == "2007/2/2")
 DateTime <- paste(HPC1$Date, HPC1$Time)
 DateTime <- strptime(DateTime, format = "%Y-%m-%d %H:%M:%S")
 HPC1$DateTime <- DateTime
-
-#plot3 is a combination of plots that can be added by subsets. 
-plot(HPC1$DateTime, as.numeric(as.character(HPC1$Sub_metering_1)), type = "n", 
-     xlab = "", ylab = "Energy sub-metering")
-
-with(HPC1, lines(DateTime, as.numeric(as.character(HPC1$Sub_metering_1))))
-with(HPC1, lines(DateTime, as.numeric(as.character(HPC1$Sub_metering_2)), col = "Red"))
-with(HPC1, lines(DateTime, as.numeric(as.character(HPC1$Sub_metering_3)), col = "Blue"))
-
-#add legend
-legend("topright", lty = 1, col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
 
 #save plot3 as png
 png("plot3.png", width = 480, height = 480)

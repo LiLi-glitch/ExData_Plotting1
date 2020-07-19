@@ -1,6 +1,6 @@
 library(tidyr)
 
-Sys.getlocale("LC_TIME")
+Sys.setlocale("LC_ALL", "English")
 
 #Download data and put in dataframe 
 Dataset <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", destfile = "HPC.zip")
@@ -23,10 +23,6 @@ HPC1 <- subset(HPC, HPC$Date == "2007/2/1" | HPC$Date == "2007/2/2")
 DateTime <- paste(HPC1$Date, HPC1$Time)
 DateTime <- strptime(DateTime, format = "%Y-%m-%d %H:%M:%S")
 HPC1$DateTime <- DateTime
-
-#plot2 is a line plot (show with type = "l")
-plot(HPC1$DateTime, as.numeric(as.character(HPC1$Global_active_power)), type = "l", 
-     xlab = "", ylab = "Global Active Power(kilowatts)")
 
 #save plot2 as png
 png("plot2.png", width = 480, height = 480)
