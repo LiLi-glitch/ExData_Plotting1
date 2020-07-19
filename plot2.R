@@ -24,12 +24,11 @@ DateTime <- paste(HPC1$Date, HPC1$Time)
 DateTime <- strptime(DateTime, format = "%Y-%m-%d %H:%M:%S")
 HPC1$DateTime <- DateTime
 
-#plot1 is a histogram, frequency of Global_active_power. 
-#Change class Global_active_power to character to categorize
+#plot2 is a line plot (show with type = "l")
 plot(HPC1$DateTime, as.numeric(as.character(HPC1$Global_active_power)), type = "l", 
      xlab = "", ylab = "Global Active Power(kilowatts)")
 
-#save plot1 as png
+#save plot2 as png
 png("plot2.png", width = 480, height = 480)
 
 plot(HPC1$DateTime, as.numeric(as.character(HPC1$Global_active_power)), type = "l", 
